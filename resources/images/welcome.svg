@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300">
+  <rect width="1200" height="300" fill="#dbeafe"/>
+  <rect x="70" y="55" width="520" height="190" rx="18" fill="#2563eb" opacity="0.95"/>
+  <rect x="110" y="95" width="440" height="110" rx="10" fill="#eff6ff"/>
+  <circle cx="155" cy="150" r="22" fill="#60a5fa"/>
+  <circle cx="225" cy="150" r="22" fill="#34d399"/>
+  <circle cx="295" cy="150" r="22" fill="#fbbf24"/>
+  <path d="M350 150h145" stroke="#2563eb" stroke-width="14" stroke-linecap="round"/>
+  <path d="M710 75h360M710 125h270M710 175h310M710 225h210" stroke="#1e40af" stroke-width="18" stroke-linecap="round" opacity="0.8"/>
+  <text x="710" y="55" font-family="sans-serif" font-size="22" fill="#1e3a8a">VISION PLATFORM</text>
+</svg>

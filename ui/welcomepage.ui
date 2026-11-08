@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WelcomePage</class>
+ <widget class="QWidget" name="WelcomePage">
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>48</number></property>
+   <property name="topMargin"><number>36</number></property>
+   <property name="rightMargin"><number>48</number></property>
+   <property name="bottomMargin"><number>36</number></property>
+   <property name="spacing"><number>22</number></property>
+   <item>
+    <widget class="QLabel" name="heroImage">
+     <property name="minimumSize"><size><width>0</width><height>210</height></size></property>
+     <property name="maximumSize"><size><width>16777215</width><height>210</height></size></property>
+     <property name="pixmap"><pixmap resource="../resources/resources.qrc">:/images/welcome.svg</pixmap></property>
+     <property name="scaledContents"><bool>true</bool></property>
+    </widget>
+   </item>
+   <item><widget class="QLabel" name="title"><property name="text"><string>Qt + OpenCV 视觉平台</string></property></widget></item>
+   <item><widget class="QLabel" name="subtitle"><property name="text"><string>面向 Ubuntu Linux 的可扩展图像处理与计算机视觉工作台</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+   <item><widget class="Line" name="separator"><property name="orientation"><enum>Qt::Horizontal</enum></property></widget></item>
+   <item><widget class="QLabel" name="sectionLabel"><property name="text"><string>选择功能模块</string></property></widget></item>
+   <item>
+    <layout class="QHBoxLayout" name="moduleLayout">
+     <property name="spacing"><number>16</number></property>
+     <item><widget class="QPushButton" name="pipelineButton"><property name="minimumSize"><size><width>0</width><height>92</height></size></property><property name="text"><string>流程编辑器
+连接 OpenCV 节点并预览处理结果</string></property></widget></item>
+     <item><widget class="QPushButton" name="yoloButton"><property name="minimumSize"><size><width>0</width><height>92</height></size></property><property name="text"><string>YOLOv8 工作台
+训练、验证、推理与 ONNX 工具</string></property></widget></item>
+     <item><widget class="QPushButton" name="environmentButton"><property name="minimumSize"><size><width>0</width><height>92</height></size></property><property name="text"><string>运行环境
+查看 Qt、OpenCV 与构建环境信息</string></property></widget></item>
+    </layout>
+   </item>
+   <item><spacer name="bottomSpacer"><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property></spacer></item>
+   <item><widget class="QLabel" name="footer"><property name="text"><string>阶段 3 · 工程骨架、OpenCV 流程和 YOLOv8 工作台</string></property></widget></item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

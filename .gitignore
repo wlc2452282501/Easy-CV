@@ -1,0 +1,14 @@
+# qmake and compiler output
+Makefile
+Makefile.*
+.qmake.stash
+*.o
+moc_*.cpp
+moc_*.o
+moc_predefs.h
+qrc_*.cpp
+*.pro.user
+ui_*.h
+
+# Local build executable
+VisionPlatform
