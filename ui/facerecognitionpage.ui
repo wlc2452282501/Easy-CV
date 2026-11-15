@@ -1,126 +1,940 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
  <class>FaceRecognitionPage</class>
  <widget class="QWidget" name="FaceRecognitionPage">
-  <property name="geometry"><rect><x>0</x><y>0</y><width>1140</width><height>700</height></rect></property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1140</width>
+    <height>700</height>
+   </rect>
+  </property>
   <layout class="QVBoxLayout" name="rootLayout">
-   <property name="spacing"><number>10</number></property>
-   <item><layout class="QHBoxLayout" name="headerLayout">
-    <item><widget class="QLabel" name="pageTitle"><property name="text"><string>PCA 人脸识别 · Eigenfaces</string></property></widget></item>
-    <item><spacer name="headerSpacer"><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
-    <item><widget class="QPushButton" name="backButton"><property name="text"><string>返回首页</string></property></widget></item>
-   </layout></item>
-   <item><widget class="QLabel" name="workflow"><property name="text"><string>1 录入至少 10 人 → 2 灰度 / 100×100 / 直方图均衡化 → 3 PCA 训练 → 4 最近邻识别与测试</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
-   <item><widget class="QGroupBox" name="preprocessingBox">
-    <property name="title"><string>预处理设置（训练与识别保持一致；修改后需重新导入）</string></property>
-    <layout class="QHBoxLayout" name="preprocessingLayout">
-     <item><widget class="QComboBox" name="cropMode">
-      <item><property name="text"><string>已裁剪的单人人脸（如 ORL / AT&amp;T）</string></property></item>
-      <item><property name="text"><string>普通照片：Haar 检测并裁剪单张人脸</string></property></item>
-     </widget></item>
-     <item><widget class="QLineEdit" name="cascadePath"><property name="placeholderText"><string>Haar XML 路径（仅普通照片模式需要）</string></property></widget></item>
-     <item><widget class="QPushButton" name="cascadeButton"><property name="text"><string>选择 Haar XML</string></property></widget></item>
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
+    <number>12</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="headerLayout" stretch="1,0,0">
+     <item>
+      <widget class="QLabel" name="pageTitle">
+       <property name="text">
+        <string>PCA 人脸识别 · Eigenfaces</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="headerSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="backButton">
+       <property name="text">
+        <string>返回首页</string>
+       </property>
+      </widget>
+     </item>
     </layout>
-   </widget></item>
-   <item><widget class="QTabWidget" name="workspaceTabs">
-    <property name="currentIndex"><number>0</number></property>
-    <widget class="QWidget" name="galleryTab">
-     <attribute name="title"><string>人员库与 PCA 训练</string></attribute>
-     <layout class="QVBoxLayout" name="galleryLayout">
-      <item><widget class="QLabel" name="directoryHelp"><property name="text"><string>导入结构：人员库 / 姓名或学号 / 多张人脸图片。每个子目录代表一个人，支持 PNG、JPG、BMP、PGM 等；建议每人至少 5 张，另留照片用于测试。</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
-      <item><layout class="QHBoxLayout" name="galleryActions">
-       <item><widget class="QPushButton" name="importButton"><property name="text"><string>导入人员库目录</string></property></widget></item>
-       <item><widget class="QPushButton" name="addPersonButton"><property name="text"><string>录入 / 追加人员照片</string></property></widget></item>
-       <item><widget class="QPushButton" name="removePersonButton"><property name="text"><string>移除选中人员</string></property></widget></item>
-       <item><widget class="QLabel" name="galleryStats"><property name="text"><string>0 人 / 0 张 · 至少需要 10 人</string></property></widget></item>
-      </layout></item>
-      <item><widget class="QSplitter" name="gallerySplitter">
-       <property name="orientation"><enum>Qt::Horizontal</enum></property>
-       <widget class="QTableWidget" name="peopleTable">
-        <property name="editTriggers"><set>QAbstractItemView::NoEditTriggers</set></property>
-        <property name="selectionMode"><enum>QAbstractItemView::SingleSelection</enum></property>
-        <property name="selectionBehavior"><enum>QAbstractItemView::SelectRows</enum></property>
-        <property name="columnCount"><number>2</number></property>
-        <column><property name="text"><string>人员姓名 / 学号</string></property></column>
-        <column><property name="text"><string>有效样本数</string></property></column>
-       </widget>
-       <widget class="QWidget" name="pcaVisuals">
-        <layout class="QGridLayout" name="pcaVisualLayout">
-         <item row="0" column="0"><widget class="QLabel" name="sampleTitle"><property name="text"><string>选中人员（均衡化样本）</string></property></widget></item>
-         <item row="0" column="1"><widget class="QLabel" name="meanTitle"><property name="text"><string>PCA 平均脸</string></property></widget></item>
-         <item row="0" column="2"><widget class="QLabel" name="eigenTitle"><property name="text"><string>特征脸</string></property></widget></item>
-         <item row="1" column="0"><widget class="QLabel" name="samplePreview"><property name="minimumSize"><size><width>130</width><height>140</height></size></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="text"><string>尚未录入</string></property></widget></item>
-         <item row="1" column="1"><widget class="QLabel" name="meanPreview"><property name="minimumSize"><size><width>130</width><height>140</height></size></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="text"><string>等待训练</string></property></widget></item>
-         <item row="1" column="2"><widget class="QLabel" name="eigenPreview"><property name="minimumSize"><size><width>130</width><height>140</height></size></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="text"><string>等待训练</string></property></widget></item>
-         <item row="2" column="2"><widget class="QSpinBox" name="eigenIndex"><property name="prefix"><string>第 </string></property><property name="suffix"><string> 个主成分</string></property><property name="minimum"><number>1</number></property><property name="maximum"><number>1</number></property></widget></item>
-        </layout>
-       </widget>
-      </widget></item>
-      <item><layout class="QHBoxLayout" name="trainLayout">
-       <item><widget class="QLabel" name="componentsTitle"><property name="text"><string>PCA 主成分数</string></property></widget></item>
-       <item><widget class="QSpinBox" name="components"><property name="specialValueText"><string>自动保留 95% 方差</string></property><property name="maximum"><number>1000</number></property></widget></item>
-       <item><widget class="QPushButton" name="trainButton"><property name="text"><string>训练 PCA 模型</string></property></widget></item>
-       <item><widget class="QLabel" name="modelStats"><property name="text"><string>模型尚未训练</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
-      </layout></item>
-     </layout>
+   </item>
+   <item>
+    <widget class="QScrollArea" name="contentScrollArea">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollContents">
+      <layout class="QVBoxLayout" name="contentLayout" stretch="0,0,1,0,0,0">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetMinimumSize</enum>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>4</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="workflow">
+         <property name="text">
+          <string>1 录入至少 10 人 → 2 灰度 / 100×100 / 直方图均衡化 → 3 PCA 训练 → 4 最近邻识别与测试</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="preprocessingBox">
+         <property name="title">
+          <string>预处理设置</string>
+         </property>
+         <layout class="QGridLayout" name="preprocessingLayout" columnstretch="0,1,0">
+          <property name="horizontalSpacing">
+           <number>12</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>8</number>
+          </property>
+          <property name="leftMargin">
+           <number>12</number>
+          </property>
+          <property name="topMargin">
+           <number>12</number>
+          </property>
+          <property name="rightMargin">
+           <number>12</number>
+          </property>
+          <property name="bottomMargin">
+           <number>12</number>
+          </property>
+          <item row="0" column="1" colspan="2">
+           <widget class="QComboBox" name="cropMode">
+            <item>
+             <property name="text">
+              <string>已裁剪的单人人脸（如 ORL / AT&amp;T）</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>普通照片：Haar 检测并裁剪单张人脸</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="cascadePath">
+            <property name="placeholderText">
+             <string>Haar XML 路径（仅普通照片模式需要）</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QPushButton" name="cascadeButton">
+            <property name="text">
+             <string>选择 Haar XML</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="cropModeTitle">
+            <property name="text">
+             <string>图像类型</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="cascadeTitle">
+            <property name="text">
+             <string>检测分类器</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0" colspan="3">
+           <widget class="QLabel" name="preprocessingHelp">
+            <property name="text">
+             <string>训练与识别须使用相同设置；修改后需重新导入人员库和查询图片。</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTabWidget" name="workspaceTabs">
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="galleryTab">
+          <attribute name="title">
+           <string>人员库与 PCA 训练</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="galleryLayout" stretch="0,0,0,0,0,1">
+           <property name="spacing">
+            <number>12</number>
+           </property>
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>12</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="directoryHelp">
+             <property name="text">
+              <string>导入结构：人员库 / 姓名或学号 / 多张人脸图片。每个子目录代表一个人，支持 PNG、JPG、BMP、PGM 等；建议每人至少 5 张，另留照片用于测试。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="galleryActions">
+             <property name="spacing">
+              <number>8</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="importButton">
+               <property name="text">
+                <string>导入人员库目录</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="addPersonButton">
+               <property name="text">
+                <string>录入 / 追加人员照片</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="removePersonButton">
+               <property name="text">
+                <string>移除选中人员</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="galleryActionSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="galleryStats">
+             <property name="text">
+              <string>0 人 / 0 张 · 至少需要 10 人</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="trainLayout">
+             <property name="spacing">
+              <number>12</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="componentsTitle">
+               <property name="text">
+                <string>PCA 主成分数</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="components">
+               <property name="specialValueText">
+                <string>自动保留 95% 方差</string>
+               </property>
+               <property name="maximum">
+                <number>1000</number>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>180</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="trainButton">
+               <property name="text">
+                <string>训练 PCA 模型</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="trainSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="modelStats">
+             <property name="text">
+              <string>模型尚未训练</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSplitter" name="gallerySplitter">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="childrenCollapsible">
+              <bool>false</bool>
+             </property>
+             <widget class="QTableWidget" name="peopleTable">
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="columnCount">
+               <number>2</number>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>220</width>
+                <height>180</height>
+               </size>
+              </property>
+              <column>
+               <property name="text">
+                <string>人员姓名 / 学号</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>样本数</string>
+               </property>
+              </column>
+             </widget>
+             <widget class="QWidget" name="pcaVisuals">
+              <layout class="QGridLayout" name="pcaVisualLayout" columnstretch="1,1,1" rowstretch="0,1,0">
+               <property name="horizontalSpacing">
+                <number>12</number>
+               </property>
+               <property name="verticalSpacing">
+                <number>8</number>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="sampleTitle">
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="text">
+                  <string>均衡化样本</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="meanTitle">
+                 <property name="text">
+                  <string>PCA 平均脸</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="eigenTitle">
+                 <property name="text">
+                  <string>特征脸</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="samplePreview">
+                 <property name="minimumSize">
+                  <size>
+                   <width>130</width>
+                   <height>140</height>
+                  </size>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="text">
+                  <string>尚未录入</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QLabel" name="meanPreview">
+                 <property name="minimumSize">
+                  <size>
+                   <width>130</width>
+                   <height>140</height>
+                  </size>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="text">
+                  <string>等待训练</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QLabel" name="eigenPreview">
+                 <property name="minimumSize">
+                  <size>
+                   <width>130</width>
+                   <height>140</height>
+                  </size>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="text">
+                  <string>等待训练</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
+                <widget class="QSpinBox" name="eigenIndex">
+                 <property name="prefix">
+                  <string>第 </string>
+                 </property>
+                 <property name="suffix">
+                  <string> 个主成分</string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="recognitionTab">
+          <attribute name="title">
+           <string>识别与逐人比对</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="recognitionLayout" stretch="0,0,0,0,0,1">
+           <property name="spacing">
+            <number>12</number>
+           </property>
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>12</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" name="queryActions">
+             <property name="spacing">
+              <number>8</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="queryButton">
+               <property name="text">
+                <string>载入待识别人脸</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="recognizeButton">
+               <property name="text">
+                <string>开始识别</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="querySpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="thresholdLayout">
+             <property name="spacing">
+              <number>12</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="thresholdTitle">
+               <property name="text">
+                <string>拒识阈值</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="threshold">
+               <property name="decimals">
+                <number>2</number>
+               </property>
+               <property name="minimum">
+                <double>0.010000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>255.000000000000000</double>
+               </property>
+               <property name="value">
+                <double>45.000000000000000</double>
+               </property>
+               <property name="toolTip">
+                <string>最近距离不大于阈值时接受该人员，否则拒识。</string>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="thresholdSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="thresholdHelp">
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string>距离越小越相似；距离 ≤ 阈值才接受。默认阈值 45 仅作起点，请用验证照片调节。PCA 适合对齐、光照相近的正面人脸。</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QGridLayout" name="queryPreviews" columnstretch="1,1,1,1">
+             <property name="horizontalSpacing">
+              <number>12</number>
+             </property>
+             <property name="verticalSpacing">
+              <number>8</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="originalTitle">
+               <property name="text">
+                <string>输入图像（灰度）</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="normalizedTitle">
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="text">
+                <string>直方图均衡化</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLabel" name="reconstructionTitle">
+               <property name="text">
+                <string>PCA 重建</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="QLabel" name="matchedTitle">
+               <property name="text">
+                <string>最近候选样本</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="originalPreview">
+               <property name="minimumSize">
+                <size>
+                 <width>130</width>
+                 <height>130</height>
+                </size>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="text">
+                <string>等待图像</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="normalizedPreview">
+               <property name="minimumSize">
+                <size>
+                 <width>130</width>
+                 <height>130</height>
+                </size>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="text">
+                <string>等待预处理</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="2">
+              <widget class="QLabel" name="reconstructionPreview">
+               <property name="minimumSize">
+                <size>
+                 <width>130</width>
+                 <height>130</height>
+                </size>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="text">
+                <string>等待识别</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="3">
+              <widget class="QLabel" name="matchedPreview">
+               <property name="minimumSize">
+                <size>
+                 <width>130</width>
+                 <height>130</height>
+                </size>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+               <property name="text">
+                <string>等待识别</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="prediction">
+             <property name="text">
+              <string>请先在“人员库与 PCA 训练”中训练模型。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="rankingTable">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="columnCount">
+              <number>4</number>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>180</height>
+              </size>
+             </property>
+             <column>
+              <property name="text">
+               <string>名次</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>比对人员</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>PCA 距离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>最近样本</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="evaluationTab">
+          <attribute name="title">
+           <string>独立测试集评估</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="evaluationLayout" stretch="0,0,0,1">
+           <property name="spacing">
+            <number>12</number>
+           </property>
+           <property name="leftMargin">
+            <number>12</number>
+           </property>
+           <property name="topMargin">
+            <number>12</number>
+           </property>
+           <property name="rightMargin">
+            <number>12</number>
+           </property>
+           <property name="bottomMargin">
+            <number>12</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="evaluationHelp">
+             <property name="text">
+              <string>选择独立测试目录，结构同人员库。相同姓名表示已知人员，其余姓名表示未知人员。训练照片及均衡化后完全相同的副本会被排除，避免将训练集命中率当作测试准确率。</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="evaluationActions">
+             <property name="spacing">
+              <number>8</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="evaluateButton">
+               <property name="text">
+                <string>选择测试集并评估</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="exportButton">
+               <property name="text">
+                <string>导出评估 CSV</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="evaluationSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>0</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="evaluationSummary">
+             <property name="text">
+              <string>尚未评估</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTableWidget" name="evaluationTable">
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="columnCount">
+              <number>5</number>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>180</height>
+              </size>
+             </property>
+             <column>
+              <property name="text">
+               <string>测试图像</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>真实人员</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>识别结果</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>最近距离</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>判定</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="logView">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="placeholderText">
+          <string>导入、训练与评估日志</string>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>56</height>
+          </size>
+         </property>
+         <property name="maximumHeight">
+          <number>72</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QProgressBar" name="progress">
+         <property name="maximumHeight">
+          <number>8</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="status">
+         <property name="text">
+          <string>请导入至少 10 位真实人员的人脸照片。</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
-    <widget class="QWidget" name="recognitionTab">
-     <attribute name="title"><string>识别与逐人比对</string></attribute>
-     <layout class="QVBoxLayout" name="recognitionLayout">
-      <item><layout class="QHBoxLayout" name="queryActions">
-       <item><widget class="QPushButton" name="queryButton"><property name="text"><string>载入待识别人脸</string></property></widget></item>
-       <item><widget class="QPushButton" name="recognizeButton"><property name="text"><string>开始识别</string></property></widget></item>
-       <item><widget class="QLabel" name="thresholdTitle"><property name="text"><string>拒识阈值（距离 ≤ 阈值才接受）</string></property></widget></item>
-       <item><widget class="QDoubleSpinBox" name="threshold"><property name="decimals"><number>2</number></property><property name="minimum"><double>0.010000000000000</double></property><property name="maximum"><double>255.000000000000000</double></property><property name="value"><double>45.000000000000000</double></property></widget></item>
-      </layout></item>
-      <item><widget class="QLabel" name="thresholdHelp"><property name="text"><string>距离越小越相似，不是置信概率。默认阈值 45 仅作起点，请用独立验证照片调节；PCA 适合对齐、光照相近的正面人脸。</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
-      <item><layout class="QGridLayout" name="queryPreviews">
-       <item row="0" column="0"><widget class="QLabel" name="originalTitle"><property name="text"><string>输入图像（灰度）</string></property></widget></item>
-       <item row="0" column="1"><widget class="QLabel" name="normalizedTitle"><property name="text"><string>预处理 / 直方图均衡化</string></property></widget></item>
-       <item row="0" column="2"><widget class="QLabel" name="reconstructionTitle"><property name="text"><string>PCA 重建</string></property></widget></item>
-       <item row="0" column="3"><widget class="QLabel" name="matchedTitle"><property name="text"><string>最近候选样本</string></property></widget></item>
-       <item row="1" column="0"><widget class="QLabel" name="originalPreview"><property name="minimumSize"><size><width>130</width><height>130</height></size></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="text"><string>等待图像</string></property></widget></item>
-       <item row="1" column="1"><widget class="QLabel" name="normalizedPreview"><property name="minimumSize"><size><width>130</width><height>130</height></size></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="text"><string>等待预处理</string></property></widget></item>
-       <item row="1" column="2"><widget class="QLabel" name="reconstructionPreview"><property name="minimumSize"><size><width>130</width><height>130</height></size></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="text"><string>等待识别</string></property></widget></item>
-       <item row="1" column="3"><widget class="QLabel" name="matchedPreview"><property name="minimumSize"><size><width>130</width><height>130</height></size></property><property name="alignment"><set>Qt::AlignCenter</set></property><property name="text"><string>等待识别</string></property></widget></item>
-      </layout></item>
-      <item><widget class="QLabel" name="prediction"><property name="text"><string>请先在“人员库与 PCA 训练”中训练模型。</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
-      <item><widget class="QTableWidget" name="rankingTable">
-       <property name="editTriggers"><set>QAbstractItemView::NoEditTriggers</set></property>
-       <property name="columnCount"><number>4</number></property>
-       <column><property name="text"><string>名次</string></property></column>
-       <column><property name="text"><string>比对人员</string></property></column>
-       <column><property name="text"><string>PCA 距离（越小越相似）</string></property></column>
-       <column><property name="text"><string>最近样本</string></property></column>
-      </widget></item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="evaluationTab">
-     <attribute name="title"><string>独立测试集评估</string></attribute>
-     <layout class="QVBoxLayout" name="evaluationLayout">
-      <item><widget class="QLabel" name="evaluationHelp"><property name="text"><string>选择独立测试目录，结构同人员库。相同姓名表示已知人员，其余姓名表示未知人员。训练照片及均衡化后完全相同的副本会被排除，避免将训练集命中率当作测试准确率。</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
-      <item><layout class="QHBoxLayout" name="evaluationActions">
-       <item><widget class="QPushButton" name="evaluateButton"><property name="text"><string>选择测试集并评估</string></property></widget></item>
-       <item><widget class="QPushButton" name="exportButton"><property name="text"><string>导出评估 CSV</string></property></widget></item>
-      </layout></item>
-      <item><widget class="QLabel" name="evaluationSummary"><property name="text"><string>尚未评估</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
-      <item><widget class="QTableWidget" name="evaluationTable">
-       <property name="editTriggers"><set>QAbstractItemView::NoEditTriggers</set></property>
-       <property name="columnCount"><number>5</number></property>
-       <column><property name="text"><string>测试图像</string></property></column>
-       <column><property name="text"><string>真实人员</string></property></column>
-       <column><property name="text"><string>识别结果</string></property></column>
-       <column><property name="text"><string>最近距离</string></property></column>
-       <column><property name="text"><string>判定</string></property></column>
-      </widget></item>
-     </layout>
-    </widget>
-   </widget></item>
-   <item><widget class="QPlainTextEdit" name="logView"><property name="readOnly"><bool>true</bool></property><property name="maximumHeight"><number>90</number></property><property name="placeholderText"><string>导入、训练与评估日志</string></property></widget></item>
-   <item><widget class="QProgressBar" name="progress"><property name="maximumHeight"><number>8</number></property><property name="value"><number>0</number></property><property name="textVisible"><bool>false</bool></property></widget></item>
-   <item><widget class="QLabel" name="status"><property name="text"><string>请导入至少 10 位真实人员的人脸照片。</string></property><property name="wordWrap"><bool>true</bool></property></widget></item>
+   </item>
   </layout>
  </widget>
- <resources/>
- <connections/>
+ <resources />
+ <connections />
 </ui>

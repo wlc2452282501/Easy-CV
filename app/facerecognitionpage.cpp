@@ -36,9 +36,17 @@ FaceRecognitionPage::FaceRecognitionPage(QWidget *parent)
     ui->setupUi(this);
     ui->cascadePath->setText(PcaFaceRecognizer::defaultCascadePath());
     ui->logView->setMaximumBlockCount(500);
-    ui->peopleTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->rankingTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-    ui->evaluationTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // Keep short columns readable and give paths the remaining width.
+    for (QTableWidget *table : {ui->peopleTable, ui->rankingTable, ui->evaluationTable}) {
+        table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        table->setTextElideMode(Qt::ElideMiddle);
+    }
+    ui->peopleTable->horizontalHeader()->setStretchLastSection(true);
+    ui->rankingTable->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Stretch);
+    ui->evaluationTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->gallerySplitter->setStretchFactor(0, 2);
+    ui->gallerySplitter->setStretchFactor(1, 3);
+    ui->gallerySplitter->setSizes(QList<int>() << 280 << 540);
     connect(ui->backButton, &QPushButton::clicked, this, &FaceRecognitionPage::backRequested);
     connect(ui->importButton, &QPushButton::clicked, this, &FaceRecognitionPage::importDirectory);
     connect(ui->addPersonButton, &QPushButton::clicked, this, &FaceRecognitionPage::addPerson);

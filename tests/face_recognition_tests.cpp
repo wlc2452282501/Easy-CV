@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QSpinBox>
 #include <QStackedWidget>
 #include <QTabWidget>
@@ -246,6 +248,80 @@ private slots:
         }
         QTest::mouseClick(face->findChild<QPushButton *>("backButton"), Qt::LeftButton);
         QCOMPARE(pages->currentWidget(), welcome);
+    }
+
+    void faceLayoutKeepsControlsReachable_data()
+    {
+        QTest::addColumn<QSize>("pageSize");
+        QTest::addColumn<int>("fontPoints");
+        QTest::newRow("small-window") << QSize(920, 550) << 10;
+        QTest::newRow("large-font") << QSize(920, 550) << 14;
+        QTest::newRow("default-window") << QSize(1140, 680) << 10;
+    }
+
+    void faceLayoutKeepsControlsReachable()
+    {
+        QFETCH(QSize, pageSize);
+        QFETCH(int, fontPoints);
+        struct RestoreApplicationFont {
+            QFont font = QApplication::font();
+            ~RestoreApplicationFont() { QApplication::setFont(font); }
+        } restoreFont;
+        QFont font = QApplication::font();
+        font.setPointSize(fontPoints);
+        QApplication::setFont(font);
+        FaceRecognitionPage page;
+        page.resize(pageSize);
+        page.findChild<QLabel *>("modelStats")->setText(QStringLiteral(
+            "训练完成：40 人 / 280 张，10000 维 → 95 维，保留方差 95.23%。"));
+        page.findChild<QLabel *>("evaluationSummary")->setText(QStringLiteral(
+            "阈值 45 ｜ 已知人员识别正确：76/80（95.00%）｜ 无未知人员测试样本 ｜ 排除训练重复 280 张 ｜ 提示 280 条"));
+        page.findChild<QLabel *>("status")->setText(QStringLiteral(
+            "已载入：/home/student/课程设计/人脸识别项目/data/att_faces/test/s01/09.pgm"));
+        page.show();
+        QCOMPARE(page.findChild<QPushButton *>("importButton")->font().pointSize(), fontPoints);
+        auto *scroll = page.findChild<QScrollArea *>("contentScrollArea");
+        auto *tabs = page.findChild<QTabWidget *>("workspaceTabs");
+        QVERIFY(scroll && tabs);
+        const QList<QStringList> controls = {
+            {"cropMode", "cascadeButton", "importButton", "addPersonButton", "removePersonButton", "components", "trainButton", "eigenIndex"},
+            {"queryButton", "recognizeButton", "threshold", "rankingTable"},
+            {"evaluateButton", "exportButton", "evaluationTable"}
+        };
+        const QString screenshotDir = qEnvironmentVariable("FACE_TEST_SCREENSHOT_DIR");
+        for (int tab = 0; tab < tabs->count(); ++tab) {
+            tabs->setCurrentIndex(tab);
+            QTest::qWait(30);
+            QCOMPARE(page.size(), pageSize);
+            for (const QString &name : controls.at(tab)) {
+                auto *widget = page.findChild<QWidget *>(name);
+                QVERIFY(widget);
+                if (qobject_cast<QPushButton *>(widget)) {
+                    QVERIFY2(widget->width() >= widget->sizeHint().width(), qPrintable(name));
+                    QVERIFY2(widget->height() >= widget->sizeHint().height(), qPrintable(name));
+                }
+                scroll->ensureWidgetVisible(widget);
+                QCoreApplication::processEvents();
+                const QRect bounds(widget->mapTo(scroll->viewport(), QPoint()), widget->size());
+                QVERIFY2(scroll->viewport()->rect().contains(bounds),
+                    qPrintable(QStringLiteral("%1 at (%2,%3) %4x%5; viewport %6x%7")
+                        .arg(name).arg(bounds.x()).arg(bounds.y()).arg(bounds.width()).arg(bounds.height())
+                        .arg(scroll->viewport()->width()).arg(scroll->viewport()->height())));
+            }
+            const QStringList wrappedLabels = {"directoryHelp", "modelStats", "thresholdHelp", "evaluationHelp", "evaluationSummary", "status"};
+            for (const QString &name : wrappedLabels) {
+                auto *label = page.findChild<QLabel *>(name);
+                if (label->isVisible()) {
+                    QVERIFY2(label->height() >= label->heightForWidth(label->width()), qPrintable(name));
+                }
+            }
+            if (!screenshotDir.isEmpty()) {
+                scroll->verticalScrollBar()->setValue(0);
+                scroll->horizontalScrollBar()->setValue(0);
+                QVERIFY(page.grab().save(screenshotDir + QStringLiteral("/layout-%1-%2pt-tab%3.png")
+                    .arg(pageSize.width()).arg(fontPoints).arg(tab)));
+            }
+        }
     }
 
     void completeImportTrainRecognizeEvaluateExport()

@@ -3,6 +3,8 @@
 首页进入 **OpenCV 工作台 → PCA 人脸识别**。原来的节点流程在同一入口的第二个标签页。
 页面布局位于 `ui/facerecognitionpage.ui` 和 `ui/opencvpage.ui`，可以用 Qt Designer 编辑。
 业务代码位于 `app/facerecognitionpage.*`；算法位于 `core/pcafacerecognizer.*`。
+页面使用统一的边距和分行参数区，长状态文字自动换行；窗口较小或字体较大时，
+通过内容区域滚动条查看下方的预览、训练参数、表格与日志，右上角返回按钮始终保留。
 
 ## 对应课程要求
 
