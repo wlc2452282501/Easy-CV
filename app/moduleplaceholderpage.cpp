@@ -28,17 +28,15 @@ ModulePlaceholderPage::~ModulePlaceholderPage()
 
 void ModulePlaceholderPage::setModule(const QString &moduleId)
 {
-    if (moduleId == QStringLiteral("pipeline")) {
-        ui->moduleTitle->setText(QStringLiteral("OpenCV 流程编辑器"));
-        ui->moduleDescription->setText(QStringLiteral(
-            "后续将提供可连接节点、算子参数、节点级预览和完整流程预览。"));
-    } else if (moduleId == QStringLiteral("yolov8")) {
-        ui->moduleTitle->setText(QStringLiteral("YOLOv8 工作台"));
-        ui->moduleDescription->setText(QStringLiteral(
-            "后续将接入训练、验证、实时推理、ONNX 导出和量化流程。"));
-    } else {
+    // Pipeline and YOLOv8 are real pages and are routed by MainWindow. This
+    // page is only used for modules without an implemented page yet.
+    if (moduleId == QStringLiteral("environment")) {
         ui->moduleTitle->setText(QStringLiteral("运行环境"));
         ui->moduleDescription->setText(QStringLiteral(
             "后续将展示 Qt 版本、OpenCV 模块、编译器和运行时检查结果。"));
+    } else {
+        ui->moduleTitle->setText(QStringLiteral("模块暂未实现"));
+        ui->moduleDescription->setText(QStringLiteral(
+            "当前模块尚未接入页面，请返回首页选择已实现的功能。"));
     }
 }

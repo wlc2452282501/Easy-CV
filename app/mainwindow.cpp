@@ -3,7 +3,7 @@
 #include "ui_mainwindow.h"
 
 #include "moduleplaceholderpage.h"
-#include "pipelinepage.h"
+#include "opencvpage.h"
 #include "welcomepage.h"
 #include "yoloworkbenchpage.h"
 
@@ -11,23 +11,25 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       m_welcomePage(new WelcomePage(this)),
-      m_pipelinePage(new PipelinePage(this)),
+      m_opencvPage(new OpenCvPage(this)),
       m_yoloPage(new YoloWorkbenchPage(this)),
       m_modulePage(new ModulePlaceholderPage(this))
 {
     ui->setupUi(this);
 
     ui->pages->addWidget(m_welcomePage);
-    ui->pages->addWidget(m_pipelinePage);
+    ui->pages->addWidget(m_opencvPage);
     ui->pages->addWidget(m_yoloPage);
     ui->pages->addWidget(m_modulePage);
     ui->pages->setCurrentWidget(m_welcomePage);
 
-    connect(m_welcomePage, SIGNAL(moduleRequested(QString)),
-            this, SLOT(openModule(QString)));
+    // The welcome page emits a module id; route real pages directly and
+    // reserve the placeholder page for modules that are not implemented yet.
+    connect(m_welcomePage, &WelcomePage::moduleRequested,
+            this, &MainWindow::openModule);
     connect(m_modulePage, SIGNAL(backRequested()),
             this, SLOT(returnToWelcome()));
-    connect(m_pipelinePage, SIGNAL(backRequested()),
+    connect(m_opencvPage, SIGNAL(backRequested()),
             this, SLOT(returnToWelcome()));
     connect(m_yoloPage, SIGNAL(backRequested()),
             this, SLOT(returnToWelcome()));
@@ -41,7 +43,7 @@ MainWindow::~MainWindow()
 void MainWindow::openModule(const QString &moduleId)
 {
     if (moduleId == QStringLiteral("pipeline")) {
-        ui->pages->setCurrentWidget(m_pipelinePage);
+        ui->pages->setCurrentWidget(m_opencvPage);
         return;
     }
     if (moduleId == QStringLiteral("yolov8")) {

@@ -1,4 +1,4 @@
-QT += widgets
+QT += widgets concurrent
 
 CONFIG += c++11
 TEMPLATE = app
@@ -13,26 +13,34 @@ SOURCES += \
     app/welcomepage.cpp \
     app/moduleplaceholderpage.cpp \
     app/pipelinepage.cpp \
+    app/opencvpage.cpp \
+    app/facerecognitionpage.cpp \
     app/yoloworkbenchpage.cpp \
     core/pipeline.cpp \
     core/noderegistry.cpp \
-    core/visionnode.cpp
+    core/visionnode.cpp \
+    core/pcafacerecognizer.cpp
 
 HEADERS += \
     app/mainwindow.h \
     app/welcomepage.h \
     app/moduleplaceholderpage.h \
     app/pipelinepage.h \
+    app/opencvpage.h \
+    app/facerecognitionpage.h \
     app/yoloworkbenchpage.h \
     core/pipeline.h \
     core/noderegistry.h \
-    core/visionnode.h
+    core/visionnode.h \
+    core/pcafacerecognizer.h
 
 FORMS += \
     ui/mainwindow.ui \
     ui/welcomepage.ui \
     ui/moduleplaceholderpage.ui \
     ui/pipelinepage.ui \
+    ui/opencvpage.ui \
+    ui/facerecognitionpage.ui \
     ui/yoloworkbenchpage.ui
 
 RESOURCES += resources/resources.qrc

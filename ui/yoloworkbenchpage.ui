@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="rootLayout">
    <property name="spacing">
-    <number>8</number>
+    <number>14</number>
    </property>
    <property name="leftMargin">
     <number>24</number>
@@ -39,10 +39,13 @@
      </property>
      <widget class="QWidget" name="scrollContent">
       <layout class="QVBoxLayout" name="contentLayout">
+       <property name="spacing">
+        <number>14</number>
+       </property>
    <item>
     <layout class="QHBoxLayout" name="headerLayout">
      <property name="spacing">
-      <number>12</number>
+      <number>16</number>
      </property>
      <item>
       <widget class="QLabel" name="pageTitle">
@@ -76,14 +79,14 @@
      <item>
       <layout class="QHBoxLayout" name="topBar">
        <property name="spacing">
-        <number>8</number>
+        <number>12</number>
        </property>
        <item>
         <widget class="QPushButton" name="backButton">
          <property name="minimumSize">
           <size>
-           <width>100</width>
-           <height>34</height>
+           <width>112</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -95,8 +98,8 @@
         <widget class="QPushButton" name="prepareButton">
          <property name="minimumSize">
           <size>
-           <width>120</width>
-           <height>34</height>
+           <width>176</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -108,8 +111,8 @@
         <widget class="QPushButton" name="inspectButton">
          <property name="minimumSize">
           <size>
-           <width>100</width>
-           <height>34</height>
+           <width>112</width>
+           <height>40</height>
           </size>
          </property>
          <property name="text">
@@ -137,10 +140,10 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
       <property name="horizontalSpacing">
-       <number>14</number>
+       <number>18</number>
       </property>
       <property name="verticalSpacing">
-       <number>8</number>
+       <number>12</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="actionLabel">
@@ -162,7 +165,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -185,7 +188,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -211,7 +214,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -237,7 +240,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -263,7 +266,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -286,7 +289,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -312,7 +315,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -344,7 +347,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -379,7 +382,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -411,7 +414,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -446,7 +449,7 @@
         </property>
         <property name="minimumSize">
          <size>
-          <width>300</width>
+           <width>320</width>
           <height>40</height>
          </size>
         </property>
@@ -470,14 +473,14 @@
    <item>
     <layout class="QHBoxLayout" name="browseButtons">
      <property name="spacing">
-      <number>8</number>
+      <number>12</number>
      </property>
      <item>
       <widget class="QPushButton" name="modelButton">
        <property name="minimumSize">
         <size>
-         <width>112</width>
-         <height>34</height>
+         <width>132</width>
+         <height>40</height>
         </size>
        </property>
        <property name="text">
@@ -489,8 +492,8 @@
       <widget class="QPushButton" name="dataButton">
        <property name="minimumSize">
         <size>
-         <width>112</width>
-         <height>34</height>
+         <width>144</width>
+         <height>40</height>
         </size>
        </property>
        <property name="text">
@@ -502,8 +505,8 @@
       <widget class="QPushButton" name="sourceButton">
        <property name="minimumSize">
         <size>
-         <width>112</width>
-         <height>34</height>
+         <width>144</width>
+         <height>40</height>
         </size>
        </property>
        <property name="text">
@@ -528,8 +531,8 @@
       <widget class="QPushButton" name="runButton">
        <property name="minimumSize">
         <size>
-         <width>128</width>
-         <height>34</height>
+         <width>132</width>
+         <height>40</height>
         </size>
        </property>
        <property name="text">
@@ -552,16 +555,16 @@
      </property>
      <layout class="QVBoxLayout" name="logLayout">
       <property name="leftMargin">
-       <number>10</number>
+       <number>14</number>
       </property>
       <property name="topMargin">
-       <number>10</number>
+       <number>14</number>
       </property>
       <property name="rightMargin">
-       <number>10</number>
+       <number>14</number>
       </property>
       <property name="bottomMargin">
-       <number>10</number>
+       <number>14</number>
       </property>
       <item>
        <widget class="QTextEdit" name="log">

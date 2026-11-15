@@ -5,7 +5,7 @@
 
 class WelcomePage;
 class ModulePlaceholderPage;
-class PipelinePage;
+class OpenCvPage;
 class YoloWorkbenchPage;
 namespace Ui { class MainWindow; }
 
@@ -25,9 +25,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     WelcomePage *m_welcomePage;
-    PipelinePage *m_pipelinePage;
-    YoloWorkbenchPage *m_yoloPage;
-    ModulePlaceholderPage *m_modulePage;
+    OpenCvPage *m_opencvPage;
+    YoloWorkbenchPage *m_yoloPage;   //yolov8
+    ModulePlaceholderPage *m_modulePage; //
 };
 
 #endif // MAINWINDOW_H

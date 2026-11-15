@@ -1,0 +1,50 @@
+{
+  "dataset": "AT&T Database of Faces (formerly ORL Database of Faces)",
+  "source_page": "https://www.cl.cam.ac.uk/research/dtg/attarchive/facedatabase.html",
+  "download_url": "https://www.cl.cam.ac.uk/Research/DTG/attarchive/pub/data/att_faces.zip",
+  "archive_sha256": "509d763bd2276aa054d260d7f1000e8be212738134f2f83d8ff13bc2adf1c8ec",
+  "archive_bytes": 3769022,
+  "people": 40,
+  "images": 400,
+  "image_format": "PGM P5, 92x112, 8-bit grayscale",
+  "label_mapping": "s01..s40 map to original s1..s40; anonymous dataset IDs, not names",
+  "splits": {
+    "train": {
+      "people": 40,
+      "images_per_person": 7,
+      "images": 280,
+      "original_image_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    "validation": {
+      "people": 40,
+      "images_per_person": 1,
+      "images": 40,
+      "original_image_numbers": [
+        8
+      ]
+    },
+    "test": {
+      "people": 40,
+      "images_per_person": 2,
+      "images": 80,
+      "original_image_numbers": [
+        9,
+        10
+      ]
+    }
+  },
+  "protocol": "Closed-set identity recognition: all 40 people are enrolled; no unknown identities in these splits.",
+  "credit": [
+    "AT&T Laboratories Cambridge",
+    "Olivetti Research Laboratory"
+  ],
+  "reference": "F. Samaria and A. Harter, Parameterisation of a stochastic model for human face identification, 2nd IEEE Workshop on Applications of Computer Vision, December 1994."
+}

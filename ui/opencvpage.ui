@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>OpenCvPage</class>
+ <widget class="QWidget" name="OpenCvPage">
+  <layout class="QVBoxLayout" name="rootLayout">
+   <property name="leftMargin"><number>0</number></property>
+   <property name="topMargin"><number>0</number></property>
+   <property name="rightMargin"><number>0</number></property>
+   <property name="bottomMargin"><number>0</number></property>
+   <item>
+    <widget class="QTabWidget" name="tabs">
+     <property name="currentIndex"><number>0</number></property>
+     <widget class="FaceRecognitionPage" name="facePage">
+      <attribute name="title"><string>PCA 人脸识别</string></attribute>
+     </widget>
+     <widget class="PipelinePage" name="pipelinePage">
+      <attribute name="title"><string>OpenCV 节点流程</string></attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget><class>FaceRecognitionPage</class><extends>QWidget</extends><header>app/facerecognitionpage.h</header><container>1</container></customwidget>
+  <customwidget><class>PipelinePage</class><extends>QWidget</extends><header>app/pipelinepage.h</header><container>1</container></customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

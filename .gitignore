@@ -12,3 +12,6 @@ ui_*.h
 
 # Local build executable
 VisionPlatform
+
+# Isolated local verification builds
+.build/
